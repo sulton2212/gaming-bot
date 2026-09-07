@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gaming Bot</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 14px 8px 18px;
+      font-family: Arial, sans-serif;
+      background: #f2f5f7;
+      color: #fff;
+    }
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+    }
+    .header {
+      background: #ffffff;
+      color: #222;
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+    .title { font-size: 21px; font-weight: 700; }
+    .subtitle { margin-top: 4px; color: #777; font-size: 13px; }
+    .balance {
+      margin-top: 10px;
+      display: inline-block;
+      background: #eef8ea;
+      color: #2e7d32;
+      border-radius: 12px;
+      padding: 7px 10px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    button {
+      border: 0;
+      min-height: 48px;
+      padding: 8px 10px;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      background: #2d718d;
+      cursor: pointer;
+      transition: transform .08s, filter .08s;
+    }
+    button:active {
+      transform: scale(.98);
+      filter: brightness(.9);
+    }
+    .green { background: #39882f; }
+    .wide { grid-column: 1 / -1; }
+    .top-left { border-radius: 7px 7px 7px 2px; }
+    .top-right { border-radius: 7px 7px 2px 7px; }
+    .middle-wide { border-radius: 2px 2px 7px 7px; }
+    .bottom-left { border-radius: 7px 2px 2px 7px; }
+    .bottom-right { border-radius: 2px 7px 7px 2px; }
+    .footer {
+      margin-top: 10px;
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="title">🎮 Gaming Bot</div>
+      <div class="subtitle" id="hello">Xush kelibsiz!</div>
+      <div class="balance">🪙 <span id="coins">0</span> coin</div>
+    </div>
+
+    <div class="grid">
+      <button class="top-left" onclick="send('stars')">⭐ Stars olish</button>
+      <button class="top-right" onclick="send('premium')">💎 Premium olish</button>
+
+      <button class="wide middle-wide" onclick="send('gift')">🎁 Gift olish</button>
+
+      <button class="green" onclick="send('balance')">💰 Balans to‘ldirish</button>
+      <button onclick="send('profile')">👤 Profil</button>
+
+      <button onclick="send('orders')">📦 Buyurtmalarim</button>
+      <button onclick="send('help')">📖 Qo‘llanma</button>
+
+      <button class="green wide" onclick="send('ads')">📢 Reklama</button>
+    </div>
+
+    <div class="footer">Telegram Mini App</div>
+  </div>
+
+  <script>
+    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+
+    if (tg) {
+      tg.ready();
+      tg.expand();
+
+      const user = tg.initDataUnsafe && tg.initDataUnsafe.user;
+      if (user) {
+        document.getElementById('hello').textContent =
+          'Salom, ' + (user.first_name || 'do‘stim') + '!';
+      }
+    }
+
+    function send(action) {
+      const payload = JSON.stringify({action: action});
+      if (tg) {
+        tg.sendData(payload);
+      } else {
+        alert('Tanlandi: ' + action);
+      }
+    }
+  </script>
+</body>
+</html>
